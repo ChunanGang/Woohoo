@@ -9,6 +9,7 @@ public class PlayerMotion : MonoBehaviour
     public float jumpForce = 10; // the jumping force
     public bool isOnGround = true; // whether the player is on ground
     public GameManager gameManager;
+    public ParticleSystem fart;
 
     void Start()
     {
@@ -16,6 +17,7 @@ public class PlayerMotion : MonoBehaviour
         jumpForce *= playerRb.mass;
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        fart = GameObject.Find("Fart").GetComponent<ParticleSystem>();
     }
 
     void Update()
@@ -27,6 +29,7 @@ public class PlayerMotion : MonoBehaviour
         // the player jump when "Q" pressed
         if(Input.GetKeyDown(KeyCode.Q)){
             playerRb.AddForce(Vector3.up * jumpForce , ForceMode.Impulse);
+            fart.Play();
             isOnGround = false;
         }
         // the player goes down when "A" pressed
