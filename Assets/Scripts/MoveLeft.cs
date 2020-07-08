@@ -8,7 +8,7 @@ public class MoveLeft : MonoBehaviour
 {
     private float speed;
     private int objType; // 0 for background/ground, 1 for obstacles
-    private static float ObstacleSpeed = 5.0f;
+    private static float ObstacleSpeed = 10.0f;
     private static float BackgroundSpeed = 5.0f;
 
     public GameManager gameManager;

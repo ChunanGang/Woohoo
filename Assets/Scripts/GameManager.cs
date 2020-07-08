@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     // Obstacles that move hirizontally
     public GameObject cubeHorizontal;
+    public GameObject birdHorizontal;
     // public GameObject carHorizontal;
 
     public bool gameOver = false;
