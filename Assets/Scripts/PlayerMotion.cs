@@ -6,13 +6,18 @@ using UnityEngine;
 public class PlayerMotion : MonoBehaviour
 {
     private Rigidbody playerRb;
-    public float jumpForce; // the jumping force
+    public float jumpForce;
     public bool isOnGround = true; // whether the player is on ground
+    public int jumpCount = 0;
+
     GameManager gameManager;
     ParticleSystem fart;
 
     /* Animation related */
     Animator anim;
+    
+    /* Constants */
+    private const int MAX_JUMP_COUNT = 2;
 
     void Start()
     {
@@ -24,7 +29,7 @@ public class PlayerMotion : MonoBehaviour
 
         // animation setup
         anim = gameObject.GetComponent<Animator>();
-        //anim.SetBool("Walk", true);
+        anim.SetBool("Walk", true);
     }
 
     void Update()
@@ -34,10 +39,11 @@ public class PlayerMotion : MonoBehaviour
             return;
 
         // the player jump when "Q" pressed
-        if(Input.GetKeyDown(KeyCode.Q)){
+        if (Input.GetKeyDown(KeyCode.Q) && jumpCount < MAX_JUMP_COUNT) {
             playerRb.AddForce(Vector3.up * jumpForce , ForceMode.Impulse);
             fart.Play();
             isOnGround = false;
+            jumpCount++;
 
             anim.SetTrigger("Jump");
         }
@@ -53,6 +59,7 @@ public class PlayerMotion : MonoBehaviour
         if (colliObj.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
+            jumpCount = 0;
             anim.ResetTrigger("Jump");
         }
         else if (colliObj.gameObject.CompareTag("Obstacle"))

@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private static float ProbDec = .1f; // used to generate obstacle series  
     private static float obstacleDistance = 10.0f; // how far apart each obstacle from each other in one series
 
-    // ======= game logic =========== //
+    // ====== Game logic =========== //
     public TextMeshProUGUI scoreText;
     public static int gameScoreIncr = 20;
     public bool gameOver = false;
