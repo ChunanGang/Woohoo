@@ -25,7 +25,7 @@ public class PlayerMotion : MonoBehaviour
         jumpForce *= playerRb.mass;
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        fart = GameObject.Find("Fart").GetComponent<ParticleSystem>();
+        fart = transform.Find("Fart").GetComponent<ParticleSystem>();
 
         // animation setup
         anim = gameObject.GetComponent<Animator>();
