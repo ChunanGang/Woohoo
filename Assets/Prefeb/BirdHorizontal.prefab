@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5243904511058249203}
   - component: {fileID: 5243904511058249202}
   - component: {fileID: 5243904511058249229}
-  - component: {fileID: 5243904511058249228}
+  - component: {fileID: 114478822871858304}
   m_Layer: 0
   m_Name: BirdHorizontal
   m_TagString: Obstacle
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
---- !u!114 &5243904511058249228
+--- !u!114 &114478822871858304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,8 +132,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5243904511058249231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54da92e2dcbc2304d88f002abb47ef80, type: 3}
+  m_Script: {fileID: 11500000, guid: 296ccbed0b641974daf747f2ef0b479b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundaryLeft: -10
+  boundaryLeft: -7
   gameManager: {fileID: 0}

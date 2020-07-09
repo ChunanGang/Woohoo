@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2991658360492603401}
   - component: {fileID: 2991658360492603510}
   - component: {fileID: 2991658360492603405}
-  - component: {fileID: 114635489477853560}
+  - component: {fileID: 114119280910333344}
   m_Layer: 0
   m_Name: CarHorizontal
   m_TagString: Obstacle
@@ -54,7 +54,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
---- !u!114 &114635489477853560
+--- !u!114 &114119280910333344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,8 +132,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 2991658360492603511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54da92e2dcbc2304d88f002abb47ef80, type: 3}
+  m_Script: {fileID: 11500000, guid: 296ccbed0b641974daf747f2ef0b479b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundaryLeft: -10
+  boundaryLeft: -7
   gameManager: {fileID: 0}

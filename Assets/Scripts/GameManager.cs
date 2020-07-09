@@ -1,5 +1,4 @@
-﻿
-// This is the game manager class that controls the game logics,
+﻿// This is the game manager class that controls the game logics,
 // as well as the spwaning of obstacles
 using TMPro;
 using System.Collections;
@@ -23,6 +22,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
+        Screen.SetResolution(640, 480, false);
         //InvokeRepeating("SpawnObstacle", startDelay, interval);
         Invoke("SpawnObstacleSeries", 2);
     }
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
 
         // mark the last created obstalce in the series
-        lastObstacle.GetComponent<DeleteObstacle>().setAsLastObstacle();
+        lastObstacle.GetComponent<ObstacleManager>().setAsLastObstacle();
     }
 
     // functions that generate a series of ostacles that will follow the prevObstacle.
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
                 return "1";
             // have next obstacle (must be bird)
             else
-                return "12" + GenerateObstacleSeries(nextObstacle, prob - 2*ProbDec);
+                return "12" + GenerateObstacleSeries("2", prob - 2*ProbDec);
         }
 
         // otherwise keep generating

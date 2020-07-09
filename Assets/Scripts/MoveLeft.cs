@@ -1,4 +1,4 @@
-﻿// Script that moves the object left with some speed
+﻿// Script that moves the "horizontal obstacles" left with some speed
 
 using System.Collections;
 using System.Collections.Generic;
