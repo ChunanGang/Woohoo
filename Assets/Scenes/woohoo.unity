@@ -433,7 +433,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6674118eeff30914d8b84f29a09af5c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubeHorizontal: {fileID: 2991658360492603511, guid: ba4cce290bb158848b2971e37ea1a300,
+  carHorizontal: {fileID: 2991658360492603511, guid: ba4cce290bb158848b2971e37ea1a300,
+    type: 3}
+  birdHorizontal: {fileID: 5243904511058249231, guid: 048e7bf13c73bf94c8cf04c97c9bce76,
     type: 3}
   gameOver: 0
 --- !u!4 &1015182082
