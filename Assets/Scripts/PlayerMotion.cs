@@ -8,8 +8,11 @@ public class PlayerMotion : MonoBehaviour
     private Rigidbody playerRb;
     public float jumpForce = 10; // the jumping force
     public bool isOnGround = true; // whether the player is on ground
-    public GameManager gameManager;
-    public ParticleSystem fart;
+    GameManager gameManager;
+    ParticleSystem fart;
+
+    /* Animation related */
+    Animator anim;
 
     void Start()
     {
@@ -18,6 +21,10 @@ public class PlayerMotion : MonoBehaviour
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         fart = GameObject.Find("Fart").GetComponent<ParticleSystem>();
+
+        // animation setup
+        anim = gameObject.GetComponent<Animator>();
+        //anim.SetBool("Walk", true);
     }
 
     void Update()
@@ -31,6 +38,8 @@ public class PlayerMotion : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumpForce , ForceMode.Impulse);
             fart.Play();
             isOnGround = false;
+
+            anim.SetTrigger("Jump");
         }
         // the player goes down when "A" pressed
         else if (Input.GetKeyDown(KeyCode.A))
@@ -44,6 +53,7 @@ public class PlayerMotion : MonoBehaviour
         if (colliObj.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
+            anim.ResetTrigger("Jump");
         }
         else if (colliObj.gameObject.CompareTag("Obstacle"))
         {
@@ -51,6 +61,7 @@ public class PlayerMotion : MonoBehaviour
             // game over unless only touch the top
             //if(colliObj.contacts[0].normal != new Vector3(0,1,0))
                 gameManager.gameOver = true;
+            anim.SetBool("Walk", false);
         } 
     }
 }
