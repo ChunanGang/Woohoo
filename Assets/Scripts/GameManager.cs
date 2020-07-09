@@ -1,28 +1,25 @@
 ﻿
 // This is the game manager class that controls the game logics,
 // as well as the spwaning of obstacles
-
+using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Obstacles that move hirizontally
+    // ====== Obstacles related ========== //
     public GameObject carHorizontal;
     public GameObject birdHorizontal;
-
-    // public GameObject carHorizontal;
-
-    public bool gameOver = false;
-
     // used to control the auto-spwaning of obstacles
-    private float startDelay = 2.0f;
-    private float interval = 1.5f;
-
     private static float ProbDec = .1f; // used to generate obstacle series  
     private static float obstacleDistance = 10.0f; // how far apart each obstacle from each other in one series
-   
+
+    // ======= game logic =========== //
+    public TextMeshProUGUI scoreText;
+    public static int gameScoreIncr = 20;
+    public bool gameOver = false;
+    public int gameScore = 0; // score is added whenever an obstacle is deleted
     
     void Start()
     {
@@ -33,7 +30,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // update score
+        scoreText.text = "Score: " + gameScore.ToString();
     }
 
     // function that generate obstalces series in the scene 

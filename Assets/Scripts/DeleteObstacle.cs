@@ -24,6 +24,8 @@ public class DeleteObstacle : MonoBehaviour
             if (GetComponent<DeleteObstacle>().isLastObstacleInSeries && !gameManager.gameOver)
                 gameManager.SpawnObstacleSeries();
             Object.Destroy(gameObject);
+            // update the score for game manager
+            gameManager.gameScore += GameManager.gameScoreIncr;
         }
     }
 

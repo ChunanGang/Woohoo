@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMotion : MonoBehaviour
 {
     private Rigidbody playerRb;
-    public float jumpForce = 10; // the jumping force
+    public float jumpForce; // the jumping force
     public bool isOnGround = true; // whether the player is on ground
     GameManager gameManager;
     ParticleSystem fart;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -291,11 +291,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1136562369}
     m_Modifications:
-    - target: {fileID: 4356800953600124292, guid: fb82dfb8d1c7044c69afd2486befecb3,
-        type: 3}
-      propertyPath: m_Name
-      value: Fart
-      objectReference: {fileID: 0}
     - target: {fileID: 1419152992, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -452,6 +447,11 @@ PrefabInstance:
       propertyPath: ColorModule.enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4356800953600124292, guid: fb82dfb8d1c7044c69afd2486befecb3,
+        type: 3}
+      propertyPath: m_Name
+      value: Fart
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
 --- !u!1 &835818919
@@ -607,7 +607,9 @@ MonoBehaviour:
     type: 3}
   birdHorizontal: {fileID: 5243904511058249231, guid: 048e7bf13c73bf94c8cf04c97c9bce76,
     type: 3}
+  scoreText: {fileID: 1783976681}
   gameOver: 0
+  gameScore: 0
 --- !u!4 &1015182082
 Transform:
   m_ObjectHideFlags: 0
@@ -744,7 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10be5b94a131c14fafd0efd5a454a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 10
+  jumpForce: 15
   isOnGround: 1
 --- !u!1 &1492211278
 GameObject:
@@ -1067,7 +1069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10be5b94a131c14fafd0efd5a454a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 10
+  jumpForce: 30
   isOnGround: 1
 --- !u!23 &1901590741
 MeshRenderer:
@@ -1250,7 +1252,7 @@ RectTransform:
   m_Children:
   - {fileID: 1783976680}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1264,11 +1266,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1901590743}
     m_Modifications:
-    - target: {fileID: 4356800953600124292, guid: fb82dfb8d1c7044c69afd2486befecb3,
-        type: 3}
-      propertyPath: m_Name
-      value: Fart
-      objectReference: {fileID: 0}
     - target: {fileID: 1419152992, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -1420,6 +1417,11 @@ PrefabInstance:
     - target: {fileID: 1438565936, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
       propertyPath: ColorModule.enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356800953600124292, guid: fb82dfb8d1c7044c69afd2486befecb3,
+        type: 3}
+      propertyPath: m_Name
+      value: Fart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
