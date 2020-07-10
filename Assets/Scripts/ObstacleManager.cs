@@ -1,5 +1,5 @@
-﻿// This scripts handle the generated obstacle (ie. delete)
-// It also notify the game manager when to generate new obstacles and when 
+﻿// This scripts handle the generated obstacle (ie. movtion, delete)
+// It also notify the game manager when to generate new obstacle-series and when 
 //  to update the game socre.
 
 using System.Collections;
@@ -33,6 +33,11 @@ public class ObstacleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // move left
+        float speed = GameObject.Find("GameManager").GetComponent<GameManager>().ObstacleSpeed;
+        transform.Translate(Vector3.left * Time.deltaTime * speed);
+
+        // checks 
         checkForGenNewObs();
         checkForUpdateScore();
         checkForDelete(); // delet is the last to avoid null-pointer error

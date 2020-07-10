@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -437,9 +437,13 @@ MonoBehaviour:
     type: 3}
   birdHorizontal: {fileID: 5243904511058249231, guid: 048e7bf13c73bf94c8cf04c97c9bce76,
     type: 3}
+  carVertical: {fileID: 0}
+  birdVertical: {fileID: 0}
   scoreText: {fileID: 1783976681}
   gameOver: 0
   gameScore: 0
+  ObstacleSpeed: 10
+  BackgroundSpeed: 5
 --- !u!4 &1015182082
 Transform:
   m_ObjectHideFlags: 0
@@ -583,8 +587,6 @@ MonoBehaviour:
   jumpForce: 15
   isOnGround: 1
   jumpCount: 0
-<<<<<<< HEAD
-=======
 --- !u!1001 &1367442239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -592,11 +594,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1136562369}
     m_Modifications:
-    - target: {fileID: 4356800953600124292, guid: fb82dfb8d1c7044c69afd2486befecb3,
-        type: 3}
-      propertyPath: m_Name
-      value: Fart
-      objectReference: {fileID: 0}
     - target: {fileID: 1419152992, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -757,6 +754,11 @@ PrefabInstance:
       propertyPath: InitialModule.startSize.scalar
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 4356800953600124292, guid: fb82dfb8d1c7044c69afd2486befecb3,
+        type: 3}
+      propertyPath: m_Name
+      value: Fart
+      objectReference: {fileID: 0}
     - target: {fileID: 4791611851574708811, guid: fb82dfb8d1c7044c69afd2486befecb3,
         type: 3}
       propertyPath: m_Mesh
@@ -769,7 +771,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 97c0b6c1a6ec7734c93742ce798b8718, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
->>>>>>> 8ec9345475f2728505ded80ec9efb40bfd8159ab
 --- !u!1 &1492211278
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,8 +959,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Score
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1291,11 +1290,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1901590743}
     m_Modifications:
-    - target: {fileID: 4356800953600124292, guid: fb82dfb8d1c7044c69afd2486befecb3,
-        type: 3}
-      propertyPath: m_Name
-      value: Fart
-      objectReference: {fileID: 0}
     - target: {fileID: 1419152992, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -1447,6 +1441,11 @@ PrefabInstance:
     - target: {fileID: 1438565936, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}
       propertyPath: ColorModule.enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356800953600124292, guid: fb82dfb8d1c7044c69afd2486befecb3,
+        type: 3}
+      propertyPath: m_Name
+      value: Fart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb82dfb8d1c7044c69afd2486befecb3, type: 3}

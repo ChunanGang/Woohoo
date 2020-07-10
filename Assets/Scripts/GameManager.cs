@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     // ====== Obstacles related ========== //
     public GameObject carHorizontal;
     public GameObject birdHorizontal;
+    public GameObject carVertical;
+    public GameObject birdVertical;
     // used to control the auto-spwaning of obstacles
     private static float ProbDec = .1f; // used to generate obstacle series  
     private static float obstacleDistance = 10.0f; // how far apart each obstacle from each other in one series
@@ -19,7 +21,10 @@ public class GameManager : MonoBehaviour
     public static int gameScoreIncr = 20;
     public bool gameOver = false;
     public int gameScore = 0; // score is added whenever an obstacle is deleted
-    
+    // speed
+    public float ObstacleSpeed = 10.0f; // how fast obstacles move
+    public float BackgroundSpeed = 5.0f; // how fast the background/ground move
+
     void Start()
     {
         Screen.SetResolution(640, 480, false);

@@ -1,12 +1,10 @@
-﻿
-// This script is used to repeat the background/ ground,
-// in order to create the effect that the player keeps running
-
+﻿// This scripts controls the motion of the background / ground.
+// It also handle the circulation of the background / ground.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepeartBackground : MonoBehaviour
+public class BackgroundMotion : MonoBehaviour
 {
     private Vector3 startPos; // the object's start position 
     private float repeatWidth; // repeat after mving this much distance
@@ -21,9 +19,15 @@ public class RepeartBackground : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if( transform.position.x  < startPos.x - repeatWidth)
+        // move left
+        float speed = GameObject.Find("GameManager").GetComponent<GameManager>().BackgroundSpeed;
+        transform.Translate(Vector3.left * Time.deltaTime * speed);
+
+        // circulation
+        if (transform.position.x < startPos.x - repeatWidth)
         {
             transform.position = startPos;
-        }   
+        }
+
     }
 }

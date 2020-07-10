@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5243904511058249200}
   - component: {fileID: 5243904511058249203}
   - component: {fileID: 5243904511058249202}
-  - component: {fileID: 5243904511058249229}
   - component: {fileID: 114478822871858304}
   m_Layer: 0
   m_Name: BirdHorizontal
@@ -110,19 +109,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 124
   m_CollisionDetection: 0
---- !u!114 &5243904511058249229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5243904511058249231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 197d398181d546a4f955596f960ed945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
 --- !u!114 &114478822871858304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,5 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 296ccbed0b641974daf747f2ef0b479b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundaryLeft: -7
   gameManager: {fileID: 0}
+  thisObstacle: {fileID: 0}
