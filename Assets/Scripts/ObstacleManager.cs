@@ -9,14 +9,11 @@ using UnityEngine;
 public class ObstacleManager : MonoBehaviour
 {
     public GameManager gameManager;
-    public ObstacleManager thisObstacle;
 
-    private bool isLastObstacleInSeries = false; // whether this obstacle is the last in its series
-    private bool usedToUpdateScore = false; // whether this obstacle is used to update the gamescore
-    private bool usedToGenNewObs = false; // whether this obstacle is used to notify the gamemanager to generate new obs
+    // ======== Parameters ====== //
     // obstacle will get delete out of this range 
     public static float deleteBoundaryX = -7;
-    public static float deleteBoundaryZ = -3;
+    public static float deleteBoundaryZ = -7;
     // update score when obstacle gets out of this range 
     public static float scoreUpdateBoundaryX = -2;
     public static float scoreUpdateBoundaryZ = -2;
@@ -24,10 +21,15 @@ public class ObstacleManager : MonoBehaviour
     public static float genNewObsBoundartX = -3;
     public static float genNewObsBoundartZ = -3;
 
+    // ======== Object related ====== // 
+    private string type; // "1" = carHorizontal; "2" = birdHorizontal; "3" = carVertical; "4" = birdVertical 
+    private bool isLastObstacleInSeries = false; // whether this obstacle is the last in its series
+    private bool usedToUpdateScore = false; // whether this obstacle is used to update the gamescore
+    private bool usedToGenNewObs = false; // whether this obstacle is used to notify the gamemanager to generate new obs
+
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        thisObstacle = GetComponent<ObstacleManager>();
     }
 
     // Update is called once per frame
@@ -47,7 +49,13 @@ public class ObstacleManager : MonoBehaviour
     // this function set the object as the last obstacle
     public void setAsLastObstacle()
     {
-        GetComponent<ObstacleManager>().isLastObstacleInSeries = true;
+        isLastObstacleInSeries = true;
+    }
+
+    // set the type of this obstacle (called by game manager whne the obstacle created)
+    public void setType(string type)
+    {
+        this.type = type;
     }
 
     // this function checks whether delete the current obstacle or not
@@ -63,10 +71,10 @@ public class ObstacleManager : MonoBehaviour
         if ((transform.position.x < scoreUpdateBoundaryX || transform.position.z < scoreUpdateBoundaryZ)
             && !gameManager.gameOver)
             // update the score for game manager onec per obstacle
-            if (!thisObstacle.usedToUpdateScore)
+            if (!usedToUpdateScore)
             {
                 gameManager.gameScore += GameManager.gameScoreIncr;
-                thisObstacle.usedToUpdateScore = true;
+                usedToUpdateScore = true;
             }
     }
 
@@ -77,10 +85,10 @@ public class ObstacleManager : MonoBehaviour
         if ((transform.position.x < genNewObsBoundartX || transform.position.z < genNewObsBoundartZ)
             && !gameManager.gameOver)
             // notify game manager to generate new obstacle series onec per LAST obstacle
-            if (GetComponent<ObstacleManager>().isLastObstacleInSeries && !thisObstacle.usedToGenNewObs)
+            if (GetComponent<ObstacleManager>().isLastObstacleInSeries && !usedToGenNewObs)
             {
                 gameManager.SpawnObstacleSeries();
-                thisObstacle.usedToGenNewObs = true;
+                usedToGenNewObs = true;
             }
     }
 }
