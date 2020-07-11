@@ -16,20 +16,25 @@ public class GameManager : MonoBehaviour
     private static float verticalObsProb = 0.5f; // the probability that the obstacle goes vertically 
 
     // ====== Game logic =========== //
+    public float startDelay = 10;
     public TextMeshProUGUI scoreText;
     public static int gameScoreIncr = 20;
     public bool gameOver = false;
     public int gameScore = 0; // score is added whenever an obstacle is deleted
-    private int mode = 1; // game mode the increases along the game
     // speed
+    public static float speedUp = 1.2f;
     public float ObstacleSpeed = 10.0f; // how fast obstacles move
     public float BackgroundSpeed = 5.0f; // how fast the background/ground move
+    // ---- GameMode ---- //
+    // Mode 1: triggered at start; ususal game;
+    // Mode 2: triggered at score> modeScore[1]; game is speeduped by a factor;
+    // Mode 3: obstacles go vertically;
+    private int mode = 0; // increase by 1 each time
+    private int[] modeScore = { 0, 200, 400 }; // decide when mode is updated
 
     void Start()
     {
-        Screen.SetResolution(640, 480, false);
-        //InvokeRepeating("SpawnObstacle", startDelay, interval);
-        Invoke("SpawnObstacleSeries", 2);
+        Invoke("SpawnObstacleSeries", startDelay);
     }
 
     // Update is called once per frame
@@ -37,6 +42,7 @@ public class GameManager : MonoBehaviour
     {
         // update score
         scoreText.text = "Score: " + gameScore.ToString();
+
     }
 
     // function that generate obstalces series in the scene 
@@ -55,6 +61,9 @@ public class GameManager : MonoBehaviour
         }
         // mark the last created obstalce in the series
         lastObstacle.GetComponent<ObstacleManager>().setAsLastObstacle();
+
+        // check for mode update
+        checkForUpdateMode();
     }
 
     // Functions that generate one obstacle in the scene.
@@ -77,7 +86,7 @@ public class GameManager : MonoBehaviour
 
         // randomly decide whther the obstalce goes vertically or horizontally
         // goes vertically
-        if (mode > 0 && Random.Range(0.0f, 1.0f) < verticalObsProb)
+        if (mode > 1 && Random.Range(0.0f, 1.0f) < verticalObsProb)
         {
             // set position and rotaion
             creatingPosistion = new Vector3(creatingObstacle.transform.position.z,
@@ -138,6 +147,19 @@ public class GameManager : MonoBehaviour
         else
             return nextObstacle + GenerateObstacleSeries(nextObstacle, prob - ProbDec);
       
+    }
+
+    void checkForUpdateMode()
+    {
+        if (mode == 0) {
+            if (gameScore > modeScore[1])
+            {
+                // speed up the whole game
+                Physics.gravity *= speedUp;
+                ObstacleSpeed *= speedUp;
+                mode = 1;
+            }
+        }
     }
 
 }

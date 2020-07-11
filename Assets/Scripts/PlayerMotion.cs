@@ -7,6 +7,7 @@ public class PlayerMotion : MonoBehaviour
 {
     private Rigidbody playerRb;
     public float jumpForce;
+    public float secondJumpForce;  // control the force at the second jump
     public bool isOnGround = true; // whether the player is on ground
     public int jumpCount = 0;
 
@@ -17,12 +18,13 @@ public class PlayerMotion : MonoBehaviour
     Animator anim;
     
     /* Constants */
-    private const int MAX_JUMP_COUNT = 2;
-
+    private static int MAX_JUMP_COUNT = 2; // the player can only limited amount of tiems
+    
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         jumpForce *= playerRb.mass;
+        secondJumpForce *= playerRb.mass;
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         fart = transform.Find("Fart").GetComponent<ParticleSystem>();
@@ -40,12 +42,17 @@ public class PlayerMotion : MonoBehaviour
 
         // the player jump when "Q" pressed
         if (Input.GetKeyDown(KeyCode.Q) && jumpCount < MAX_JUMP_COUNT) {
-            playerRb.AddForce(Vector3.up * jumpForce , ForceMode.Impulse);
+            // first jump
+            if (jumpCount == 0)
+                playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            // second jump, diff force mode
+            else
+                playerRb.AddForce(Vector3.up * secondJumpForce, ForceMode.Impulse);
+
             fart.Play();
             isOnGround = false;
             jumpCount++;
-
-            anim.SetTrigger("Jump");
+            anim.SetTrigger("Jump");      
         }
         // the player goes down when "A" pressed
         else if (Input.GetKeyDown(KeyCode.A))
