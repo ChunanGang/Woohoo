@@ -1,6 +1,8 @@
 ﻿// This is the game manager class that controls the game logics,
 // as well as the spwaning of obstacles
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +20,8 @@ public class GameManager : MonoBehaviour
     // ====== Game logic =========== //
     public float startDelay = 10;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI gameOverText;
+    public Button restartButton;
     public static int gameScoreIncr = 20;
     public bool gameOver = false;
     public int gameScore = 0; // score is added whenever an obstacle is deleted
@@ -40,9 +44,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // update score
+        // update text
         scoreText.text = "Score: " + gameScore.ToString();
-
+        if (gameOver)
+        {
+            gameOverText.gameObject.SetActive(true);
+            restartButton.gameObject.SetActive(true);
+        }
     }
 
     // function that generate obstalces series in the scene 
@@ -160,6 +168,14 @@ public class GameManager : MonoBehaviour
                 mode = 1;
             }
         }
+        else if (mode == 1)
+            if (gameScore > modeScore[2])
+                mode = 2;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }
