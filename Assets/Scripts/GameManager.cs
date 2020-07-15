@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private Button restartButton;
     private Button returnToMenuButton;
     private Button resumeButton;
+    private Button pauseButton;
 
     // ====== Game logic =========== //
     public float startDelay = 10;
@@ -38,8 +39,10 @@ public class GameManager : MonoBehaviour
     public int gameScore = 0; // score is added whenever an obstacle is deleted
     // speed
     public static float speedUp = 1.2f;
-    public float ObstacleSpeed = 10.0f; // how fast obstacles move
+    public const float initObstacleSpeed = 10.0f; // how fast obstacles move
+    public float ObstacleSpeed;
     public float BackgroundSpeed = 5.0f; // how fast the background/ground move
+    public Vector3 initGravity;
     
     // ====== GameMode ========== //
     // Mode 1: triggered at start; ususal game;
@@ -54,8 +57,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // find objects reference
         userInterface = GameObject.Find("Canvas").gameObject;
-
         scoreText = userInterface.transform.Find("ScoreText").GetComponent<TextMeshProUGUI>();
         gameTitleText = userInterface.transform.Find("GameTitle").GetComponent<TextMeshProUGUI>();
         gameOverText = userInterface.transform.Find("GameOverText").GetComponent<TextMeshProUGUI>();
@@ -64,12 +67,17 @@ public class GameManager : MonoBehaviour
         restartButton = userInterface.transform.Find("RestartButton").GetComponent<Button>();
         returnToMenuButton = userInterface.transform.Find("ReturnToMenuButton").GetComponent<Button>();
         resumeButton = userInterface.transform.Find("ResumeButton").GetComponent<Button>();
-        
+        pauseButton = userInterface.transform.Find("PauseButton").GetComponent<Button>();
         playerObj = GameObject.Find("Player").gameObject;
+
         // initialize an empty transform, to avoid copying the reference instead of the value
         initialPlayerTrans = new GameObject().transform; 
         initialPlayerTrans.position = playerObj.transform.position;
         initialPlayerTrans.rotation = playerObj.transform.rotation;
+
+        // initilizations
+        ObstacleSpeed = initObstacleSpeed;
+        initGravity = Physics.gravity;
 
         EnterStartMenu();
     }
@@ -84,6 +92,7 @@ public class GameManager : MonoBehaviour
             gameOverText.gameObject.SetActive(true);
             restartButton.gameObject.SetActive(true);
             returnToMenuButton.gameObject.SetActive(true);
+            pauseButton.gameObject.SetActive(false);
         }
     }
 
@@ -191,6 +200,8 @@ public class GameManager : MonoBehaviour
       
     }
 
+    // This function chekc whether should move to the next mode
+    // If so, move to next mode
     void checkForUpdateMode()
     {
         if (mode == 0) {
@@ -207,8 +218,6 @@ public class GameManager : MonoBehaviour
                 mode = 2;
     }
 
-    // TODO: right now cannot proceed from gameover to start game directly but have to go through start menu again
-    // it seems like we just need to reset the chick's position and that will be all
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -228,28 +237,36 @@ public class GameManager : MonoBehaviour
         
         gameTitleText.gameObject.SetActive(true);
         startButton.gameObject.SetActive(true);
+        pauseButton.gameObject.SetActive(false);
         inStartMenu = true;
     }
     
-
+    // This function is triggered by the pause action from user
+    // It either puase or resume-from-pause
     public void TogglePause()
     {
         paused = !paused;
+        // pressed to pause
         if (paused) {
             Time.timeScale = 0;
             pauseText.gameObject.SetActive(true);
             resumeButton.gameObject.SetActive(true);
+            pauseButton.gameObject.SetActive(false);
         }
+        // pressed to resume
         else {
             Time.timeScale = 1;
             pauseText.gameObject.SetActive(false);
             resumeButton.gameObject.SetActive(false);
+            pauseButton.gameObject.SetActive(true);
         }
     }
 
-    // TODO: might need more values to be reset
+    // This function resets the game state.
+    // It is called before every start.
     private void resetGameState()
     {
+        // set buttons
         scoreText.gameObject.SetActive(false);
         gameTitleText.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
@@ -258,23 +275,32 @@ public class GameManager : MonoBehaviour
         restartButton.gameObject.SetActive(false);
         returnToMenuButton.gameObject.SetActive(false);
         resumeButton.gameObject.SetActive(false);
+        pauseButton.gameObject.SetActive(true);
 
+        // remove obstacle in the scene
         removeAllObstacles();
 
+        // reset player's position
         playerObj.transform.position = initialPlayerTrans.position;
         playerObj.transform.rotation = initialPlayerTrans.rotation;
 
+        // game logic
         gameOver = false;
         if (paused) { TogglePause(); }
         inStartMenu = false;
 
+        // reset game settings
         gameScore = 0;
+        mode = 0;
+        ObstacleSpeed = initObstacleSpeed;
+        Physics.gravity = initGravity;
     }
 
+    // Remove all obstacle in the scene
     private void removeAllObstacles() 
     {
         foreach(GameObject obj in GameObject.FindObjectsOfType(typeof(GameObject))) {
-            if (obj.name.Contains("Car") || obj.name.Contains("Bird")) {
+            if (obj.CompareTag("Obstacle")) {
                 Object.Destroy(obj); 
             }
         }
