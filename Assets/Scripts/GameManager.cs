@@ -41,12 +41,16 @@ public class GameManager : MonoBehaviour
     public float ObstacleSpeed = 10.0f; // how fast obstacles move
     public float BackgroundSpeed = 5.0f; // how fast the background/ground move
     
-    // ---- GameMode ---- //
+    // ====== GameMode ========== //
     // Mode 1: triggered at start; ususal game;
     // Mode 2: triggered at score> modeScore[1]; game is speeduped by a factor;
     // Mode 3: obstacles go vertically;
     private int mode = 0; // increase by 1 each time
     private int[] modeScore = { 0, 200, 400 }; // decide when mode is updated
+
+    // ====== Player related ======== //
+    private GameObject playerObj;
+    private Transform initialPlayerTrans;
 
     void Start()
     {
@@ -61,6 +65,12 @@ public class GameManager : MonoBehaviour
         returnToMenuButton = userInterface.transform.Find("ReturnToMenuButton").GetComponent<Button>();
         resumeButton = userInterface.transform.Find("ResumeButton").GetComponent<Button>();
         
+        playerObj = GameObject.Find("Player").gameObject;
+        // initialize an empty transform, to avoid copying the reference instead of the value
+        initialPlayerTrans = new GameObject().transform; 
+        initialPlayerTrans.position = playerObj.transform.position;
+        initialPlayerTrans.rotation = playerObj.transform.rotation;
+
         EnterStartMenu();
     }
 
@@ -206,9 +216,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
         resetGameState();
+
         scoreText.gameObject.SetActive(true);
         Invoke("SpawnObstacleSeries", startDelay);
     }
@@ -216,6 +225,7 @@ public class GameManager : MonoBehaviour
     public void EnterStartMenu()
     {
         resetGameState();
+        
         gameTitleText.gameObject.SetActive(true);
         startButton.gameObject.SetActive(true);
         inStartMenu = true;
@@ -249,10 +259,24 @@ public class GameManager : MonoBehaviour
         returnToMenuButton.gameObject.SetActive(false);
         resumeButton.gameObject.SetActive(false);
 
+        removeAllObstacles();
+
+        playerObj.transform.position = initialPlayerTrans.position;
+        playerObj.transform.rotation = initialPlayerTrans.rotation;
+
         gameOver = false;
         if (paused) { TogglePause(); }
         inStartMenu = false;
 
         gameScore = 0;
     }
+
+    private void removeAllObstacles() 
+    {
+        foreach(GameObject obj in GameObject.FindObjectsOfType(typeof(GameObject))) {
+            if (obj.name.Contains("Car") || obj.name.Contains("Bird")) {
+                Object.Destroy(obj); 
+            }
+        }
+    } 
 }
