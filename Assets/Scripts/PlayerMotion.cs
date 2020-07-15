@@ -36,9 +36,19 @@ public class PlayerMotion : MonoBehaviour
 
     void Update()
     {
-        // quit if game is over
-        if (gameManager.gameOver)
+        // quit if game is over or in start menu
+        if (gameManager.gameOver || gameManager.inStartMenu)
             return;
+
+        // pause or unpause when "P" pressed
+        if (Input.GetKeyDown(KeyCode.P)) {
+            gameManager.TogglePause();
+        }
+
+        // quit if paused
+        if (gameManager.paused) {
+            return;
+        }
 
         // the player jump when "Q" pressed
         if (Input.GetKeyDown(KeyCode.Q) && jumpCount < MAX_JUMP_COUNT) {

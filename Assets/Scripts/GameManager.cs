@@ -10,25 +10,37 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // ====== Obstacles related ========== //
-    public GameObject car;
-    public GameObject bird;
+    public GameObject car; // car obstacle prefab
+    public GameObject bird; // bird obstacle prefab
     // used to control the auto-spwaning of obstacles
     private static float ProbDec = .1f; // used to generate obstacle series  
     private static float obstacleDistance = 10.0f; // how far apart each obstacle from each other in one series
     private static float verticalObsProb = 0.5f; // the probability that the obstacle goes vertically 
 
+    // ====== Menu related game object ========= //
+    // **For any game object, make sure to initiate in Start() and, if necessary, set it inactive in resetGameState() 
+    private GameObject userInterface;
+    private TextMeshProUGUI scoreText;
+    private TextMeshProUGUI gameTitleText;
+    private TextMeshProUGUI gameOverText;
+    private TextMeshProUGUI pauseText;
+    private Button startButton;
+    private Button restartButton;
+    private Button returnToMenuButton;
+    private Button resumeButton;
+
     // ====== Game logic =========== //
     public float startDelay = 10;
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI gameOverText;
-    public Button restartButton;
     public static int gameScoreIncr = 20;
     public bool gameOver = false;
+    public bool paused = false;
+    public bool inStartMenu = true;
     public int gameScore = 0; // score is added whenever an obstacle is deleted
     // speed
     public static float speedUp = 1.2f;
     public float ObstacleSpeed = 10.0f; // how fast obstacles move
     public float BackgroundSpeed = 5.0f; // how fast the background/ground move
+    
     // ---- GameMode ---- //
     // Mode 1: triggered at start; ususal game;
     // Mode 2: triggered at score> modeScore[1]; game is speeduped by a factor;
@@ -38,7 +50,18 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Invoke("SpawnObstacleSeries", startDelay);
+        userInterface = GameObject.Find("Canvas").gameObject;
+
+        scoreText = userInterface.transform.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        gameTitleText = userInterface.transform.Find("GameTitle").GetComponent<TextMeshProUGUI>();
+        gameOverText = userInterface.transform.Find("GameOverText").GetComponent<TextMeshProUGUI>();
+        pauseText = userInterface.transform.Find("PauseText").GetComponent<TextMeshProUGUI>();
+        startButton = userInterface.transform.Find("StartButton").GetComponent<Button>();
+        restartButton = userInterface.transform.Find("RestartButton").GetComponent<Button>();
+        returnToMenuButton = userInterface.transform.Find("ReturnToMenuButton").GetComponent<Button>();
+        resumeButton = userInterface.transform.Find("ResumeButton").GetComponent<Button>();
+        
+        EnterStartMenu();
     }
 
     // Update is called once per frame
@@ -50,6 +73,7 @@ public class GameManager : MonoBehaviour
         {
             gameOverText.gameObject.SetActive(true);
             restartButton.gameObject.SetActive(true);
+            returnToMenuButton.gameObject.SetActive(true);
         }
     }
 
@@ -173,9 +197,62 @@ public class GameManager : MonoBehaviour
                 mode = 2;
     }
 
+    // TODO: right now cannot proceed from gameover to start game directly but have to go through start menu again
+    // it seems like we just need to reset the chick's position and that will be all
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void StartGame()
+    {
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        resetGameState();
+        scoreText.gameObject.SetActive(true);
+        Invoke("SpawnObstacleSeries", startDelay);
+    }
+
+    public void EnterStartMenu()
+    {
+        resetGameState();
+        gameTitleText.gameObject.SetActive(true);
+        startButton.gameObject.SetActive(true);
+        inStartMenu = true;
+    }
+    
+
+    public void TogglePause()
+    {
+        paused = !paused;
+        if (paused) {
+            Time.timeScale = 0;
+            pauseText.gameObject.SetActive(true);
+            resumeButton.gameObject.SetActive(true);
+        }
+        else {
+            Time.timeScale = 1;
+            pauseText.gameObject.SetActive(false);
+            resumeButton.gameObject.SetActive(false);
+        }
+    }
+
+    // TODO: might need more values to be reset
+    private void resetGameState()
+    {
+        scoreText.gameObject.SetActive(false);
+        gameTitleText.gameObject.SetActive(false);
+        gameOverText.gameObject.SetActive(false);
+        pauseText.gameObject.SetActive(false);
+        startButton.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
+        returnToMenuButton.gameObject.SetActive(false);
+        resumeButton.gameObject.SetActive(false);
+
+        gameOver = false;
+        if (paused) { TogglePause(); }
+        inStartMenu = false;
+
+        gameScore = 0;
+    }
 }
