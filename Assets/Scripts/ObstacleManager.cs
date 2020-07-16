@@ -20,16 +20,25 @@ public class ObstacleManager : MonoBehaviour
     // notify game manger to generare new obstacles when the last tobstacle gets out of this range
     public static float genNewObsBoundartX = -3;
     public static float genNewObsBoundartZ = -3;
+    // play alert sound when obstacle get into this range
+    public static float playAlertSoundBoundaryZ = 7;
 
-    // ======== Object related ====== // 
+    // ======== obstacle info ====== // 
     private string type; // "1" = carHorizontal; "2" = birdHorizontal; "3" = carVertical; "4" = birdVertical 
     private bool isLastObstacleInSeries = false; // whether this obstacle is the last in its series
     private bool usedToUpdateScore = false; // whether this obstacle is used to update the gamescore
     private bool usedToGenNewObs = false; // whether this obstacle is used to notify the gamemanager to generate new obs
+    private bool playedAlertSound = false; // wther this obstacle alerted the player
+
+    // ======== sound  ====== //
+    public AudioClip alertSound; // audio that reminds player to jump/dash
+    public AudioSource audioSource; 
+
 
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -43,7 +52,7 @@ public class ObstacleManager : MonoBehaviour
         checkForGenNewObs();
         checkForUpdateScore();
         checkForDelete(); // delet is the last to avoid null-pointer error
-
+        checkForSoundAlert();
     }
 
     // this function set the object as the last obstacle
@@ -90,5 +99,22 @@ public class ObstacleManager : MonoBehaviour
                 gameManager.SpawnObstacleSeries();
                 usedToGenNewObs = true;
             }
+    }
+
+    // This function checks whether this obstacle should play alert sound
+    private void checkForSoundAlert()
+    {
+        // stop if game is already over
+        if (gameManager.gameOver)
+            return;
+
+        if(type=="1" && !playedAlertSound)
+        {
+            if (transform.position.x < playAlertSoundBoundaryZ)
+            {
+                audioSource.PlayOneShot(alertSound, 1);
+                playedAlertSound = true;
+            }
+        }
     }
 }

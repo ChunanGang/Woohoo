@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     // ====== Player related ======== //
     private GameObject playerObj;
     private Transform initialPlayerTrans;
+    public Sprite[] backgroundSprite;
+    public SpriteRenderer backgroundSR;
 
     void Start()
     {
@@ -69,6 +71,7 @@ public class GameManager : MonoBehaviour
         resumeButton = userInterface.transform.Find("ResumeButton").GetComponent<Button>();
         pauseButton = userInterface.transform.Find("PauseButton").GetComponent<Button>();
         playerObj = GameObject.Find("Player").gameObject;
+        backgroundSR = GameObject.Find("Background").GetComponent<SpriteRenderer>();
 
         // initialize an empty transform, to avoid copying the reference instead of the value
         initialPlayerTrans = new GameObject().transform; 
@@ -214,8 +217,9 @@ public class GameManager : MonoBehaviour
             }
         }
         else if (mode == 1)
-            if (gameScore > modeScore[2])
+            if (gameScore > modeScore[2]) 
                 mode = 2;
+
     }
 
     public void RestartGame()
@@ -233,12 +237,16 @@ public class GameManager : MonoBehaviour
 
     public void EnterStartMenu()
     {
-        resetGameState();
-        
+        gameOver = false;
+        resetTextsAndButtons();
+        resetPlayer();
         gameTitleText.gameObject.SetActive(true);
         startButton.gameObject.SetActive(true);
         pauseButton.gameObject.SetActive(false);
         inStartMenu = true;
+        // remove obstacle in the scene
+        removeAllObstacles();
+        
     }
     
     // This function is triggered by the pause action from user
@@ -266,23 +274,13 @@ public class GameManager : MonoBehaviour
     // It is called before every start.
     private void resetGameState()
     {
-        // set buttons
-        scoreText.gameObject.SetActive(false);
-        gameTitleText.gameObject.SetActive(false);
-        gameOverText.gameObject.SetActive(false);
-        pauseText.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(false);
-        restartButton.gameObject.SetActive(false);
-        returnToMenuButton.gameObject.SetActive(false);
-        resumeButton.gameObject.SetActive(false);
-        pauseButton.gameObject.SetActive(true);
+        resetTextsAndButtons();
 
         // remove obstacle in the scene
         removeAllObstacles();
 
         // reset player's position
-        playerObj.transform.position = initialPlayerTrans.position;
-        playerObj.transform.rotation = initialPlayerTrans.rotation;
+        resetPlayer();
 
         // game logic
         gameOver = false;
@@ -294,6 +292,34 @@ public class GameManager : MonoBehaviour
         mode = 0;
         ObstacleSpeed = initObstacleSpeed;
         Physics.gravity = initGravity;
+    }
+
+    // this fucntions reset the buttons to the beginnin state
+    private void resetTextsAndButtons()
+    {
+        // set buttons
+        scoreText.gameObject.SetActive(false);
+        gameTitleText.gameObject.SetActive(false);
+        gameOverText.gameObject.SetActive(false);
+        pauseText.gameObject.SetActive(false);
+        startButton.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
+        returnToMenuButton.gameObject.SetActive(false);
+        resumeButton.gameObject.SetActive(false);
+        pauseButton.gameObject.SetActive(true);
+    }
+
+    // this function reset the player to the initial state
+    private void resetPlayer()
+    {
+        // reset player's position
+        playerObj.transform.position = initialPlayerTrans.position;
+        playerObj.transform.rotation = initialPlayerTrans.rotation;
+        // set back the rotation constrain
+        playerObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+        // remove velocity
+        playerObj.GetComponent<Rigidbody>().angularVelocity = new Vector3(0,0,0);
+        playerObj.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
     }
 
     // Remove all obstacle in the scene

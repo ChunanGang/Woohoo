@@ -81,11 +81,9 @@ public class PlayerMotion : MonoBehaviour
         }
         else if (colliObj.gameObject.CompareTag("Obstacle"))
         {
-            //Debug.Log(colliObj.contacts[0].normal);
-            // game over unless only touch the top
-            //if(colliObj.contacts[0].normal != new Vector3(0,1,0))
-                gameManager.gameOver = true;
+            gameManager.gameOver = true;
             anim.SetBool("Walk", false);
+            playerRb.constraints = RigidbodyConstraints.None;
         } 
     }
 }
