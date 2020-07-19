@@ -12,14 +12,20 @@ public class PlayerMotion : MonoBehaviour
     public int jumpCount = 0;
 
     GameManager gameManager;
-    ParticleSystem fart;
 
     /* Animation related */
     Animator anim;
     
     /* Constants */
     private static int MAX_JUMP_COUNT = 2; // the player can only limited amount of tiems
-    
+    private static float jumpSoundVolume = 0.7f;
+    private static float hitSoundVolume = .7f;
+
+    /* sound */
+    public AudioClip jumpSound;
+    public AudioClip hitSound;
+    public AudioSource audioSource;
+
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
@@ -27,7 +33,7 @@ public class PlayerMotion : MonoBehaviour
         secondJumpForce *= playerRb.mass;
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        fart = transform.Find("Fart").GetComponent<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
 
         // animation setup
         anim = gameObject.GetComponent<Animator>();
@@ -59,7 +65,9 @@ public class PlayerMotion : MonoBehaviour
             else
                 playerRb.AddForce(Vector3.up * secondJumpForce, ForceMode.Impulse);
 
-            fart.Play();
+            // play the sound
+            audioSource.PlayOneShot(jumpSound, jumpSoundVolume);
+
             isOnGround = false;
             jumpCount++;
             anim.SetTrigger("Jump");      
@@ -81,6 +89,10 @@ public class PlayerMotion : MonoBehaviour
         }
         else if (colliObj.gameObject.CompareTag("Obstacle"))
         {
+            // play the sound
+            if (!gameManager.gameOver)
+                audioSource.PlayOneShot(hitSound, hitSoundVolume);
+
             gameManager.gameOver = true;
             anim.SetBool("Walk", false);
             playerRb.constraints = RigidbodyConstraints.None;

@@ -246,7 +246,9 @@ public class GameManager : MonoBehaviour
         inStartMenu = true;
         // remove obstacle in the scene
         removeAllObstacles();
-        
+        // random background
+        backgroundSR.sprite = backgroundSprite[Random.Range(0, 3)];
+
     }
     
     // This function is triggered by the pause action from user

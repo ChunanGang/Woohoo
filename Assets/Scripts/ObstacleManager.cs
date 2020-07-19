@@ -13,15 +13,14 @@ public class ObstacleManager : MonoBehaviour
     // ======== Parameters ====== //
     // obstacle will get delete out of this range 
     public static float deleteBoundaryX = -7;
-    public static float deleteBoundaryZ = -7;
+    public static float deleteBoundaryZ = -10;
     // update score when obstacle gets out of this range 
     public static float scoreUpdateBoundaryX = -2;
     public static float scoreUpdateBoundaryZ = -2;
     // notify game manger to generare new obstacles when the last tobstacle gets out of this range
-    public static float genNewObsBoundartX = -3;
-    public static float genNewObsBoundartZ = -3;
+    public static float genNewObsBoundartXZ = -6;
     // play alert sound when obstacle get into this range
-    public static float playAlertSoundBoundaryZ = 7;
+    public static float playAlertSoundBoundaryZ = 14;
 
     // ======== obstacle info ====== // 
     private string type; // "1" = carHorizontal; "2" = birdHorizontal; "3" = carVertical; "4" = birdVertical 
@@ -32,7 +31,8 @@ public class ObstacleManager : MonoBehaviour
 
     // ======== sound  ====== //
     public AudioClip alertSound; // audio that reminds player to jump/dash
-    public AudioSource audioSource; 
+    public AudioSource audioSource;
+    private static float jumpAlertSoundVolume = 1.4f;
 
 
     void Start()
@@ -91,7 +91,7 @@ public class ObstacleManager : MonoBehaviour
     private void checkForGenNewObs()
     {
         // spawn if the last obstacle in a series is out of boundary
-        if ((transform.position.x < genNewObsBoundartX || transform.position.z < genNewObsBoundartZ)
+        if ((transform.position.x < genNewObsBoundartXZ || transform.position.z < genNewObsBoundartXZ)
             && !gameManager.gameOver)
             // notify game manager to generate new obstacle series onec per LAST obstacle
             if (GetComponent<ObstacleManager>().isLastObstacleInSeries && !usedToGenNewObs)
@@ -108,11 +108,11 @@ public class ObstacleManager : MonoBehaviour
         if (gameManager.gameOver)
             return;
 
-        if(type=="1" && !playedAlertSound)
+        if(type=="3" && !playedAlertSound)
         {
-            if (transform.position.x < playAlertSoundBoundaryZ)
+            if (transform.position.z < playAlertSoundBoundaryZ)
             {
-                audioSource.PlayOneShot(alertSound, 1);
+                audioSource.PlayOneShot(alertSound, jumpAlertSoundVolume);
                 playedAlertSound = true;
             }
         }
