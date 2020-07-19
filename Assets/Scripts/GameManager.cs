@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     // Mode 2: triggered at score> modeScore[1]; game is speeduped by a factor;
     // Mode 3: obstacles go vertically;
     private int mode = 0; // increase by 1 each time
-    private int[] modeScore = { 0, 200, 400 }; // decide when mode is updated
+    private int[] modeScore = { 0, 100, 200 }; // decide when mode is updated
 
     // ====== Player related ======== //
     private GameObject playerObj;

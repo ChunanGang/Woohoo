@@ -9,6 +9,7 @@ using UnityEngine;
 public class ObstacleManager : MonoBehaviour
 {
     public GameManager gameManager;
+    public GameObject player;
 
     // ======== Parameters ====== //
     // obstacle will get delete out of this range 
@@ -30,14 +31,17 @@ public class ObstacleManager : MonoBehaviour
     private bool playedAlertSound = false; // wther this obstacle alerted the player
 
     // ======== sound  ====== //
-    public AudioClip alertSound; // audio that reminds player to jump/dash
+    public AudioClip alertSoundJump; // audio that reminds player to jump
+    public AudioClip alertSoundDash; // audio that reminds player to dash down
     public AudioSource audioSource;
     private static float jumpAlertSoundVolume = 1.4f;
+    private static float dashAlertSoundVolume = 1.0f;
 
 
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        player = GameObject.Find("Player");
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -108,11 +112,21 @@ public class ObstacleManager : MonoBehaviour
         if (gameManager.gameOver)
             return;
 
+        // alert for carVertical
         if(type=="3" && !playedAlertSound)
         {
             if (transform.position.z < playAlertSoundBoundaryZ)
             {
-                audioSource.PlayOneShot(alertSound, jumpAlertSoundVolume);
+                audioSource.PlayOneShot(alertSoundJump, jumpAlertSoundVolume);
+                playedAlertSound = true;
+            }
+        }
+        // alert for birdVertical
+        else if(type == "4" && !playedAlertSound && player.transform.position.y > transform.position.y-1)
+        {
+            if (transform.position.z < playAlertSoundBoundaryZ)
+            {
+                audioSource.PlayOneShot(alertSoundDash, dashAlertSoundVolume);
                 playedAlertSound = true;
             }
         }

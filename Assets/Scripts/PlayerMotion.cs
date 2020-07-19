@@ -18,7 +18,7 @@ public class PlayerMotion : MonoBehaviour
     
     /* Constants */
     private static int MAX_JUMP_COUNT = 2; // the player can only limited amount of tiems
-    private static float jumpSoundVolume = 0.7f;
+    private static float jumpSoundVolume = 0.5f;
     private static float hitSoundVolume = .7f;
 
     /* sound */
@@ -75,7 +75,7 @@ public class PlayerMotion : MonoBehaviour
         // the player goes down when "A" pressed
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            playerRb.AddForce(Vector3.down * jumpForce, ForceMode.Impulse);
+            playerRb.AddForce(Vector3.down * secondJumpForce, ForceMode.Impulse);
         }
     }
 

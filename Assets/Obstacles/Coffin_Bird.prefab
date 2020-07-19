@@ -64,7 +64,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  alertSound: {fileID: 8300000, guid: 0fe91994dd13ae34e8cf821839fafe15, type: 3}
+  player: {fileID: 0}
+  alertSoundJump: {fileID: 8300000, guid: 0fe91994dd13ae34e8cf821839fafe15, type: 3}
+  alertSoundDash: {fileID: 8300000, guid: 7f09d35e05a49a74aa6549bf033dc93a, type: 3}
   audioSource: {fileID: 0}
 --- !u!82 &82704737995470210
 AudioSource:
