@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     // used to control the auto-spwaning of obstacles
     private static float ProbDec = .1f; // used to generate obstacle series  
     private static float obstacleDistance = 10.0f; // how far apart each obstacle from each other in one series
-    private static float verticalObsProb = 0.5f; // the probability that the obstacle goes vertically 
+    private static float verticalObsProb = .5f; // the probability that the obstacle goes vertically 
 
     // ====== Menu related game object ========= //
     // **For any game object, make sure to initiate in Start() and, if necessary, set it inactive in resetGameState() 
@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI gameTitleText;
     private TextMeshProUGUI gameOverText;
     private TextMeshProUGUI pauseText;
+    private TextMeshProUGUI bgmButtonText;
     private Button startButton;
     private Button restartButton;
     private Button returnToMenuButton;
@@ -32,9 +33,10 @@ public class GameManager : MonoBehaviour
 
     // ====== Game logic =========== //
     public float startDelay = 10;
-    public static int gameScoreIncr = 20;
+    public static int gameScoreIncr = 10;
     public bool gameOver = false;
     public bool paused = false;
+    public bool bgm = true;
     public bool inStartMenu = true;
     public int gameScore = 0; // score is added whenever an obstacle is deleted
     // speed
@@ -49,7 +51,7 @@ public class GameManager : MonoBehaviour
     // Mode 2: triggered at score> modeScore[1]; game is speeduped by a factor;
     // Mode 3: obstacles go vertically;
     private int mode = 0; // increase by 1 each time
-    private int[] modeScore = { 0, 100, 200 }; // decide when mode is updated
+    private int[] modeScore = { 0, 40, 100 }; // decide when mode is updated
 
     // ====== Player related ======== //
     private GameObject playerObj;
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour
         pauseButton = userInterface.transform.Find("PauseButton").GetComponent<Button>();
         playerObj = GameObject.Find("Player").gameObject;
         backgroundSR = GameObject.Find("Background").GetComponent<SpriteRenderer>();
+        bgmButtonText = GameObject.Find("BgmButtonText").GetComponent<TextMeshProUGUI>();
 
         // initialize an empty transform, to avoid copying the reference instead of the value
         initialPlayerTrans = new GameObject().transform; 
@@ -271,6 +274,25 @@ public class GameManager : MonoBehaviour
             pauseButton.gameObject.SetActive(true);
         }
     }
+
+    // This function is triggered by the action from user
+    // It either puase or resume the bgm
+    public void ToggleBgm()
+    {
+        // taggle to turn off bgm
+        if (bgm)
+        {
+            GameObject.Find("BgmAS").GetComponent<AudioSource>().volume = 0;
+            bgmButtonText.fontStyle = FontStyles.Strikethrough;
+        }
+        else
+        {
+            GameObject.Find("BgmAS").GetComponent<AudioSource>().volume = 0.05f;
+            bgmButtonText.fontStyle = FontStyles.Bold;
+        }
+        bgm = !bgm;
+    }
+
 
     // This function resets the game state.
     // It is called before every start.

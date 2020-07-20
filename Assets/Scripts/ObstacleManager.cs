@@ -122,12 +122,19 @@ public class ObstacleManager : MonoBehaviour
             }
         }
         // alert for birdVertical
-        else if(type == "4" && !playedAlertSound && player.transform.position.y > transform.position.y-1)
+        else if(type == "4" && !playedAlertSound)
         {
-            if (transform.position.z < playAlertSoundBoundaryZ)
+            // only play when it passes the boundary
+            if (transform.position.z < playAlertSoundBoundaryZ &&
+                transform.position.z > playAlertSoundBoundaryZ-0.5 )
             {
-                audioSource.PlayOneShot(alertSoundDash, dashAlertSoundVolume);
-                playedAlertSound = true;
+                // only play when it is possible that the player will collide
+                if (player.transform.position.y > transform.position.y ||
+                    (player.transform.position.y > 0 && player.GetComponent<Rigidbody>().velocity.y > 0))
+                {
+                    audioSource.PlayOneShot(alertSoundDash, dashAlertSoundVolume);
+                    playedAlertSound = true;
+                }
             }
         }
     }

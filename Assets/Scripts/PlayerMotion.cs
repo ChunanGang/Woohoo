@@ -18,12 +18,10 @@ public class PlayerMotion : MonoBehaviour
     
     /* Constants */
     private static int MAX_JUMP_COUNT = 2; // the player can only limited amount of tiems
-    private static float jumpSoundVolume = 0.5f;
-    private static float hitSoundVolume = .7f;
+    private static float jumpSoundVolume = 0.3f;
 
     /* sound */
     public AudioClip jumpSound;
-    public AudioClip hitSound;
     public AudioSource audioSource;
 
     void Start()
@@ -75,7 +73,7 @@ public class PlayerMotion : MonoBehaviour
         // the player goes down when "A" pressed
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            playerRb.AddForce(Vector3.down * secondJumpForce, ForceMode.Impulse);
+            playerRb.AddForce(Vector3.down * jumpForce, ForceMode.Impulse);
         }
     }
 
@@ -89,10 +87,6 @@ public class PlayerMotion : MonoBehaviour
         }
         else if (colliObj.gameObject.CompareTag("Obstacle"))
         {
-            // play the sound
-            if (!gameManager.gameOver)
-                audioSource.PlayOneShot(hitSound, hitSoundVolume);
-
             gameManager.gameOver = true;
             anim.SetBool("Walk", false);
             playerRb.constraints = RigidbodyConstraints.None;
