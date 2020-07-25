@@ -34,8 +34,8 @@ public class ObstacleManager : MonoBehaviour
     public AudioClip alertSoundJump; // audio that reminds player to jump
     public AudioClip alertSoundDash; // audio that reminds player to dash down
     public AudioSource audioSource;
-    private static float jumpAlertSoundVolume = 1.4f;
-    private static float dashAlertSoundVolume = 1.0f;
+    private static float jumpAlertSoundVolume = 1.8f;
+    private static float dashAlertSoundVolume = 1.2f;
 
 
     void Start()
