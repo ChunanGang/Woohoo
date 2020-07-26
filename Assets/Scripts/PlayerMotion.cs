@@ -35,14 +35,16 @@ public class PlayerMotion : MonoBehaviour
 
         // animation setup
         anim = gameObject.GetComponent<Animator>();
-        anim.SetBool("Walk", true);
+        anim.SetBool("Dash", false);
     }
 
     void Update()
     {
         // quit if game is over or in start menu
-        if (gameManager.gameOver || gameManager.inStartMenu)
+        if (gameManager.gameOver || gameManager.inStartMenu) {
+            if (Input.GetKeyDown(KeyCode.Return)) { gameManager.StartGame(); }
             return;
+        }
 
         // pause or unpause when "P" pressed
         if (Input.GetKeyDown(KeyCode.P)) {
@@ -68,12 +70,15 @@ public class PlayerMotion : MonoBehaviour
 
             isOnGround = false;
             jumpCount++;
-            anim.SetTrigger("Jump");      
+            anim.SetTrigger("Jump");  
+            anim.SetBool("Dash", false);    
         }
         // the player goes down when "A" pressed
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A) && !isOnGround)
         {
             playerRb.AddForce(Vector3.down * jumpForce, ForceMode.Impulse);
+            anim.ResetTrigger("Jump"); 
+            anim.SetBool("Dash", true);
         }
     }
 
@@ -83,12 +88,12 @@ public class PlayerMotion : MonoBehaviour
         {
             isOnGround = true;
             jumpCount = 0;
-            anim.ResetTrigger("Jump");
+            anim.SetBool("Dash", false);
         }
         else if (colliObj.gameObject.CompareTag("Obstacle"))
         {
             gameManager.gameOver = true;
-            anim.SetBool("Walk", false);
+            anim.SetBool("Dash", false);
             playerRb.constraints = RigidbodyConstraints.None;
         } 
     }
