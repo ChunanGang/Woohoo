@@ -82,6 +82,7 @@ public class PlayerMotion : MonoBehaviour
         }
     }
 
+    // detect the type of collison (ground or ostacles)
     private void OnCollisionEnter(Collision colliObj)
     {
         if (colliObj.gameObject.CompareTag("Ground"))

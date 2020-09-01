@@ -37,7 +37,6 @@ public class ObstacleManager : MonoBehaviour
     private static float jumpAlertSoundVolume = 1.8f;
     private static float dashAlertSoundVolume = 1.2f;
 
-
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -45,7 +44,6 @@ public class ObstacleManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         // move left
